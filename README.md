@@ -7,8 +7,8 @@ A command line tool for checking exchange rates between currencies, both crypto 
 ## Install
 
 ```
-git clone &&
-cd &&
+git clone https://github.com/Senpai-10/forx-rs.git &&
+cd https://github.com/Senpai-10/forx-rs.git &&
 cargo install --path .
 ```
 
