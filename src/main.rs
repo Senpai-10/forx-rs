@@ -23,6 +23,27 @@ async fn main() -> Result<(), reqwest::Error> {
     } else if cli.version {
         println!("Version: {}", VERSION.bright_yellow());
         std::process::exit(0);
+    } else if cli.list {
+        let res_text = reqwest::get("https://api.coinbase.com/v2/currencies")
+            .await?
+            .text()
+            .await
+            .unwrap();
+        let parsed_json: JsonValue = res_text.parse().unwrap();
+        let data = &parsed_json["data"].as_array().unwrap();
+
+        for i in 0..data.len() {
+            let currency = &data[i];
+            let id = currency["id"].as_str().unwrap();
+            let name = currency["name"].as_str().unwrap();
+            if i % 2 == 1 {
+                println!("{}  -  {}", id.bright_black(), name.bright_black());
+            } else {
+                println!("{}  -  {}", id, name);
+            }
+        }
+
+        std::process::exit(0);
     }
 
     if !cli.base.is_empty() && cli.to.is_empty() || cli.base.is_empty() && cli.to.is_empty() {
