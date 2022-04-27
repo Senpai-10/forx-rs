@@ -5,7 +5,7 @@ pub fn help() {
         "{} forx-rs <from> <to> [options]",
         format!(" Usage ").on_bright_green().black().bold()
     );
-    println!("\t\tA command line tool for checking exchange rates between currencies, both crypto and fiat");
+    println!("\t{}", format!("A command line tool for checking exchange rates between currencies, both crypto and fiat").bright_black());
     println!();
     println!("{}", format!(" Options ").on_bright_green().black().bold());
     entry("--help", "-h", "print help message");
