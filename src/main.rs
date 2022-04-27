@@ -25,13 +25,13 @@ async fn main() -> Result<(), reqwest::Error> {
         std::process::exit(0);
     }
 
-    if !cli.from.is_empty() && cli.to.is_empty() || cli.from.is_empty() && cli.to.is_empty() {
+    if !cli.base.is_empty() && cli.to.is_empty() || cli.base.is_empty() && cli.to.is_empty() {
         println!("You need to provide move info\nExample: 'forx-rs usd aud'\nSee --help");
         std::process::exit(1);
     }
 
-    if !is_valid(&cli.from) {
-        println!("'{}' is not a valid currency!", cli.from);
+    if !is_valid(&cli.base) {
+        println!("'{}' is not a valid currency!", cli.base);
         std::process::exit(1);
     }
     if !is_valid(&cli.to) {
@@ -41,7 +41,7 @@ async fn main() -> Result<(), reqwest::Error> {
 
     let res_text = reqwest::get(format!(
         "https://api.coinbase.com/v2/exchange-rates?currency={}",
-        cli.from.to_uppercase()
+        cli.base.to_uppercase()
     ))
     .await?
     .text()
