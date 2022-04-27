@@ -4,6 +4,7 @@ pub struct Cli {
     pub verbose: bool,  // Print verbose messages
     pub list: bool,     // Print list of valid currencies
     pub quantity: bool, // Quantity of FROM currency. Defaults to 1.
+    pub quantity_value: i64,
     pub from: String,
     pub to: String,
 }
@@ -19,6 +20,7 @@ impl Cli {
             verbose: false,
             list: false,
             quantity: false,
+            quantity_value: 0,
         };
 
         let args: Vec<String> = std::env::args().skip(1).collect();
@@ -38,8 +40,10 @@ impl Cli {
                 cli.verbose = true;
             } else if arg == "--list" || arg == "-l" {
                 cli.list = true;
-            } else if arg == "--quantity" || arg == "-q" {
+            } else if arg.starts_with("--quantity=") || arg.starts_with("-q=") {
+                let value: i64 = arg.split_once("=").unwrap().1.parse().unwrap();
                 cli.quantity = true;
+                cli.quantity_value = value;
             }
         }
 
