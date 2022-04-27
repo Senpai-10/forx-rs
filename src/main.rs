@@ -3,6 +3,7 @@ extern crate serde;
 mod cli;
 mod help;
 mod is_valid;
+mod verbose_print;
 
 use cli::Cli;
 use colored::Colorize;
@@ -10,6 +11,7 @@ use help::help;
 use is_valid::is_valid;
 use reqwest;
 use serde_json::Value as JsonValue;
+use verbose_print::verbose_print;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -24,11 +26,11 @@ async fn main() -> Result<(), reqwest::Error> {
         println!("Version: {}", VERSION.bright_yellow());
         std::process::exit(0);
     } else if cli.list {
-        let res_text = reqwest::get("https://api.coinbase.com/v2/currencies")
-            .await?
-            .text()
-            .await
-            .unwrap();
+        let url = "https://api.coinbase.com/v2/currencies";
+
+        verbose_print(format!("GET request to {}", url), cli.verbose);
+
+        let res_text = reqwest::get(url).await?.text().await.unwrap();
         let parsed_json: JsonValue = res_text.parse().unwrap();
         let data = &parsed_json["data"].as_array().unwrap();
 
@@ -79,7 +81,14 @@ async fn main() -> Result<(), reqwest::Error> {
     let mut price: f64 = price_str.parse().unwrap();
     price = price * cli.quantity_value as f64;
 
-    println!("{}", price);
+    if cli.verbose {
+        println!(
+            "{} {} to {} = {}",
+            cli.quantity_value, cli.base, cli.to, price
+        );
+    } else {
+        println!("{}", price);
+    }
 
     Ok(())
 }
