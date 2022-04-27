@@ -15,9 +15,18 @@ async fn main() -> Result<(), reqwest::Error> {
         .unwrap();
 
     let parsed_json: JsonValue = res_text.parse().unwrap();
-    let price = parsed_json["data"]["rates"]["SAR"].as_str().unwrap();
+    let price_str = match parsed_json["data"]["rates"]["SAR"].as_str() {
+        Some(price) => price,
+        None => {
+            println!("Invaild currency!");
+            std::process::exit(1);
+        }
+    };
+
+    let price: f64 = price_str.parse().unwrap();
 
     println!("Price: {}", price);
+    println!("Price: {}", price * 2.0);
 
     Ok(())
 }
