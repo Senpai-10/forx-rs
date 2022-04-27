@@ -20,7 +20,7 @@ impl Cli {
             verbose: false,
             list: false,
             quantity: false,
-            quantity_value: 0,
+            quantity_value: 1,
         };
 
         let args: Vec<String> = std::env::args().skip(1).collect();
