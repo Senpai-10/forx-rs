@@ -1,5 +1,5 @@
 pub struct Cli {
-    pub help: bool,     // print help message
+    pub help: bool,     // Print help message
     pub version: bool,  // Print forx-rs version
     pub verbose: bool,  // Print verbose messages
     pub list: bool,     // Print list of valid currencies
