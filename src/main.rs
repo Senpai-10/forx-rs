@@ -53,12 +53,18 @@ async fn main() -> Result<(), reqwest::Error> {
         std::process::exit(1);
     }
 
-    if !is_valid(&cli.base) {
-        println!("'{}' is not a valid currency!", cli.base);
+    if !is_valid(&cli.base, cli.verbose).await? {
+        println!(
+            "'{}' is not a valid currency!\tSee --help for more info",
+            cli.base
+        );
         std::process::exit(1);
     }
-    if !is_valid(&cli.to) {
-        println!("'{}' is not a valid currency!", cli.to);
+    if !is_valid(&cli.to, cli.verbose).await? {
+        println!(
+            "'{}' is not a valid currency!\tSee --help for more info",
+            cli.to
+        );
         std::process::exit(1);
     }
 
