@@ -1,9 +1,10 @@
 pub struct Cli {
-    pub help: bool,     // Print help message
-    pub version: bool,  // Print forx-rs version
-    pub verbose: bool,  // Print verbose messages
-    pub list: bool,     // Print list of valid currencies
-    pub quantity: bool, // Quantity of base currency. Defaults to 1.
+    pub help: bool,      // Print help message
+    pub version: bool,   // Print forx-rs version
+    pub verbose: bool,   // Print verbose messages
+    pub list: bool,      // Print list of valid currencies
+    pub no_format: bool, // Disable formatting for price
+    pub quantity: bool,  // Quantity of base currency. Defaults to 1.
     pub quantity_value: i64,
     pub base: String,
     pub to: String,
@@ -19,6 +20,7 @@ impl Cli {
             version: false,
             verbose: false,
             list: false,
+            no_format: false,
             quantity: false,
             quantity_value: 1,
         };
@@ -40,6 +42,8 @@ impl Cli {
                 cli.verbose = true;
             } else if arg == "--list" || arg == "-l" {
                 cli.list = true;
+            } else if arg == "--no-format" || arg == "-n" {
+                cli.no_format = true
             } else if arg.starts_with("--quantity=") || arg.starts_with("-q=") {
                 let value: i64 = arg.split_once("=").unwrap().1.parse().unwrap();
                 cli.quantity = true;
