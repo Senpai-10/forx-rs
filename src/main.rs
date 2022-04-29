@@ -1,5 +1,3 @@
-extern crate serde;
-
 mod api;
 mod cli;
 mod help;
@@ -9,7 +7,6 @@ use cli::Cli;
 use colored::Colorize;
 use help::help;
 use reqwest;
-
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[tokio::main]
